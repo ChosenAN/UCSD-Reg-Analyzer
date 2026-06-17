@@ -1,0 +1,3 @@
+# Ingest output (index.json + <term>.json) is written here by `build-web` and
+# committed so GitHub Pages ships it as static data. Run:
+#   uv run ucsd-enroll-analyzer build-web --terms 2024Fall

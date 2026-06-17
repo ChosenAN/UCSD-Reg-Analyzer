@@ -72,6 +72,35 @@ Global flags (place before the subcommand):
 uv run ucsd-enroll-analyzer --json analyze 2024Fall "BILD 4"
 ```
 
+## Website (static dashboard)
+
+A precomputed static site (`web/`, Vite + React) lets anyone browse, search,
+rank, and compare courses in the browser — no backend. The Python CLI is the
+precompute engine; the site just renders its output.
+
+```bash
+# 1. Precompute per-course summaries into the site's data folder.
+#    Coverage is controlled by web_build/terms.txt; --terms overrides it.
+uv run ucsd-enroll-analyzer build-web --terms 2024Fall   # writes web/public/data/
+
+# 2. Run the site locally.
+cd web
+npm install
+npm run dev        # http://localhost:5173/UCSD-Reg-Analyzer/
+npm test           # frontend unit tests
+npm run build      # production build into web/dist
+```
+
+- **Dashboard** ranks/sorts/searches a term's courses from the precomputed JSON.
+- **Course detail** fetches that course's raw CSV from `raw.githubusercontent.com`
+  on demand and charts enrolled/available/waitlisted over time.
+- **Compare** overlays a course across terms, aligned to each term's seat release.
+
+**Deploy:** committing `web/**` to `main` triggers `.github/workflows/deploy-pages.yml`,
+which builds the site and publishes to GitHub Pages. Enable Pages → "GitHub
+Actions" once in repo settings. Refresh data by re-running `build-web` and
+committing `web/public/data`.
+
 ## Caveats — please read
 
 This is built on **a handful of terms of noisy WebReg scrapes**, not official
