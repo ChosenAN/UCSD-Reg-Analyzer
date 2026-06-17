@@ -13,7 +13,7 @@ from typing import Any
 import click
 import pandas as pd
 
-from . import analysis, plot, render
+from . import analysis, ingest, plot, render
 from .constants import KNOWN_TERMS
 from .load import load_course, load_many
 from .terms import parse_term
@@ -219,6 +219,32 @@ def plot_cmd(ctx: click.Context, term: str, course: str, section: str | None, ou
     except plot.PlotDependencyError as exc:
         raise click.ClickException(str(exc))
     click.echo(f"Saved chart to {path}" if path is not None else "Displayed chart.")
+
+
+@main.command(name="build-web")
+@click.option("--terms", "terms_override", default=None,
+              help="Comma-separated terms to build (overrides --terms-file).")
+@click.option("--terms-file", type=click.Path(), default=None,
+              help="Path to terms.txt (default: web_build/terms.txt).")
+@click.option("--out", type=click.Path(), default="web/public/data",
+              help="Output directory for the JSON dataset.")
+@click.pass_context
+def build_web_cmd(
+    ctx: click.Context,
+    terms_override: str | None,
+    terms_file: str | None,
+    out: str,
+) -> None:
+    """Build the static-dashboard JSON dataset from configured terms."""
+    from pathlib import Path as _Path
+
+    chosen = ingest.load_terms(
+        path=_Path(terms_file) if terms_file else None, override=terms_override
+    )
+    if not chosen:
+        raise click.ClickException("No valid terms to build (check terms.txt/--terms).")
+    out_dir = ingest.build_web(chosen, _Path(out), refresh=ctx.obj["refresh"])
+    click.echo(f"Built {len(chosen)} term(s) into {out_dir}")
 
 
 if __name__ == "__main__":  # pragma: no cover

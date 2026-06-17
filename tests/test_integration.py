@@ -29,3 +29,17 @@ def test_live_load_course_matches_coded_schema(tmp_path):
     assert list(df.columns) == EXPECTED_COLUMNS
     assert len(df) > 0
     assert df.attrs.get("degraded") is False
+
+
+@pytest.mark.network
+def test_build_web_one_term(tmp_path):
+    import json
+
+    from ucsd_enroll_analyzer import ingest
+
+    out = ingest.build_web(["2025Spring"], tmp_path / "data", cache_dir=tmp_path / "cache")
+    index = json.loads((out / "index.json").read_text())
+    assert index["terms"][0]["term"] == "2025Spring"
+    assert index["terms"][0]["courses"] > 0
+    rows = json.loads((out / "2025Spring.json").read_text())
+    assert {"course", "risk_label", "snapshots"} <= set(rows[0])

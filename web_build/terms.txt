@@ -1,0 +1,26 @@
+# Terms the dashboard build covers. One term repo name per line.
+# Comment out (with #) or delete lines to shrink coverage; add lines to extend.
+# Names are validated; invalid ones are skipped with a warning.
+2022Spring
+2022SpringDrop
+2022Summer1
+2022Summer1Drop
+2022Summer2
+2022Summer2Drop
+2022Summer3
+2022Fall
+2022FallGrad
+2023Winter
+2023WinterGrad
+2023Spring
+2023Summer1
+2023Summer2
+2023Fall
+2024Winter
+2024Spring
+2024Summer1
+2024Summer2
+2024Summer3
+2024Fall
+2025Winter
+2025Spring
