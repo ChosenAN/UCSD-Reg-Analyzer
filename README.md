@@ -1,5 +1,7 @@
 # UCSD Enrollment Analyzer
 
+**🌐 Live dashboard: https://chosenan.github.io/UCSD-Reg-Analyzer/**
+
 A small Python CLI that fetches, caches, and analyzes **historical UCSD course
 enrollment data** — with a focus on the question every student actually cares
 about: *how fast do seats disappear the moment registration opens?*
@@ -73,6 +75,8 @@ uv run ucsd-enroll-analyzer --json analyze 2024Fall "BILD 4"
 ```
 
 ## Website (static dashboard)
+
+**Live site: https://chosenan.github.io/UCSD-Reg-Analyzer/**
 
 A precomputed static site (`web/`, Vite + React) lets anyone browse, search,
 rank, and compare courses in the browser — no backend. The Python CLI is the

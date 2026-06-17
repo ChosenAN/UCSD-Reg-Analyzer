@@ -2,6 +2,7 @@
 __pycache__/
 *.egg-info/
 data_cache/
+web_build/ingest.log
 .pytest_cache/
 .mypy_cache/
 *.pyc
